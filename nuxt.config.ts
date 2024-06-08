@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt','@element-plus/nuxt','@nuxtjs/color-mode'],
   app: {
     head: {
       title:'Bệnh viện Đà Nẵng',

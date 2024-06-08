@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   app: {
     head: {
-      title:'Bệnh viện Đà Nẵng',
+      title:'Quản lý thiết bị y tế',
       link: [
       { rel: "icon", type: "image/png", href: "/logo_dana_hospital.png" }
     ]

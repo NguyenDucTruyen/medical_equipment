@@ -49,7 +49,7 @@ function toggleSidebar() {
   min-width: 50px;
   background-color: #fff;
   &.defaultBodySideBarExpand {
-    min-width: 210px;
+    min-width: 240px;
   }
 }
 
@@ -58,5 +58,6 @@ function toggleSidebar() {
   height: 100%;
   background-color: var(--dt-background);
   overflow: auto;
+  padding:20px;
 }
 </style>

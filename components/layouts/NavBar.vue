@@ -13,9 +13,10 @@ defineEmits<{
 const route = useRoute()
 const title = computed(() => {
   const name = (String(route.name) ?? '').split('-')
-  return name
+  const title = name
     .map((n: string) => n.charAt(0).toUpperCase() + n.slice(1))
     .join(' ')
+  return title === 'Index' ? 'Trang chủ' : title
 })
 </script>
 
@@ -30,10 +31,10 @@ const title = computed(() => {
         <img v-if="isExpand" src="@/assets/icons/arrow-double-left-color.svg" :class="$style.iconToggleSideBar" alt="logo">
         <img v-else src="@/assets/icons/arrow-double-right-color.svg" :class="$style.iconToggleSideBar" alt="logo">
       </button>
-      <div :class="$style.headerLogo">
-        <img src="@/assets/images/sgr_logo_square.png" alt="logo">
-        
-      </div>
+      <NuxtLink to="/" :class="$style.headerLogo">
+        <img src="@/assets/images/logo_dana_hospital.png" alt="logo">
+        <span :class="$style.headerLogoName">BỆNH VIỆN ĐÀ NẴNG</span>
+      </NuxtLink>
     </div>
     <div :class="$style.headerSection">
       <div :class="$style.headerCenter">
@@ -42,14 +43,6 @@ const title = computed(() => {
     </div>
     <div :class="$style.headerSection">
       <div :class="[$style.headerCenter, $style.headerCenterRight]">
-        <button :class="$style.headerButtonPremium">
-          <img
-            src="@/assets/icons/Diamond.svg"
-            :class="$style.headerButtonPremiumIcon"
-            alt="notification"
-          >
-          <span :class="$style.headerButtonPremiumText">Upgrade to Premium</span>
-        </button>
         <div :class="$style.headerCenterRightUser">
           <AtomsButtonIcon tooltip-text="Language">
             <img src="@/assets/icons/User.svg" alt="notification">
@@ -170,9 +163,7 @@ const title = computed(() => {
   gap: 10px;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  color: #252525;
-  font-weight: 700;
+  @include text-style(1rem,700,normal,var(--color-gray-dark));
 }
 .headerButtonPremium {
   padding: 6px 13.5px;
@@ -208,6 +199,7 @@ const title = computed(() => {
 .headerLogo {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .headerLogoImage {
@@ -220,11 +212,8 @@ const title = computed(() => {
 }
 
 .headerLogoName {
-  line-height: 44px;
-  color: #444746;
-  font-size: 22px;
-  padding-left: 4px;
-  line-height: 24px;
+  padding-left: 12px;
+  @include text-style(16px,600,24px,var(--color-gray-dark));
   cursor: pointer;
 }
 

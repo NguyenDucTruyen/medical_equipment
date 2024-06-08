@@ -13,7 +13,7 @@ const menuList = [
         icon: 'https://assets.quillbot.com/images/theme/commonImages/paraphraser-new.svg',
         color: 'rgb(73, 149, 87)',
         title: 'Paraphraser',
-        path: '/paragrapher',
+        path: '/manager',
     },
     {
         id: 2,
@@ -44,28 +44,7 @@ const menuList = [
         path: '/summerizer',
     },
 
-    {
-        id: 7,
-        icon: 'https://assets.quillbot.com/images/theme/light/translator/translator_icon.svg',
-        color: 'rgba(0, 0, 0, 0.87)',
-        title: 'Translator',
-        path: '/translator',
-    },
-    {
-        id: 6,
-        icon: 'https://assets.quillbot.com/images/theme/commonImages/citation-generator-logo.svg',
-        color: 'rgb(0, 103, 197)',
-        title: 'Citation Generator',
-        path: '/citation-generator',
-    },
-
-    {
-        id: 4,
-        icon: '	https://assets.quillbot.com/images/theme/commonImages/co-writer-new.svg',
-        color: 'rgb(49, 157, 255)',
-        title: 'QuillBot Flow',
-        path: '/quilbot-flow',
-    },
+    
 ]
 const menuToolList = [
     {
@@ -111,44 +90,6 @@ const menuToolList = [
                 </RouterLink>
             </div>
         </div>
-        <div :class=" [$style.sidebarItemBorder, $style.sidebarPemiumItem] ">
-            <div :class=" [$style.sidebarItem, isExpand && $style.sidebarItemExpand] ">
-                <div :class=" $style.sidebarBorderItem " />
-                <Icon :class=" $style.sidebarItemIcon " style="color: #dc9e00" icon="mdi-light:diamond" />
-                <p v-show=" isExpand " :class=" [$style.sidebarItemTitle, $style.sidebarPemiumItemText] ">
-                    QuillBot Premium
-                </p>
-            </div>
-        </div>
-        <div :class=" [$style.sidebarItemBorder, $style.sidebarItemBox] ">
-            <div v-for="item in menuToolList" :key=" item.id ">
-                <div :class=" [$style.sidebarItem, isExpand && $style.sidebarItemExpand] ">
-                    <div :class=" $style.sidebarBorderItem " />
-                    <img :src=" item.icon " alt="" width="24" height="24">
-                    <p v-show=" isExpand " :class=" $style.sidebarItemTitle ">
-                        {{ item.title }}
-                    </p>
-                    <Icon v-show=" isExpand " :class=" $style.sidebarItemBoxIcon " style="color: #252525"
-                        icon="material-symbols:ungroup" />
-                </div>
-            </div>
-        </div>
-        <div :class=" [$style.sidebarItemBorder, $style.sidebarItemBox] ">
-            <div :class=" [$style.sidebarItem, isExpand && $style.sidebarItemExpand] ">
-                <div :class=" $style.sidebarBorderItem " />
-                <Icon :class=" $style.sidebarItemIcon " icon="ic:outline-help-outline" />
-                <p v-show=" isExpand " :class=" $style.sidebarItemTitle ">
-                    Help Center
-                </p>
-            </div>
-            <div :class=" [$style.sidebarItem, isExpand && $style.sidebarItemExpand] ">
-                <div :class=" $style.sidebarBorderItem " />
-                <Icon :class=" $style.sidebarItemIcon " icon="material-symbols:mail-outline" />
-                <p v-show=" isExpand " :class=" $style.sidebarItemTitle ">
-                    Contact us
-                </p>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -180,15 +121,14 @@ const menuToolList = [
 .sidebarItem {
     display: flex;
     align-items: center;
-    padding: 8px 13px 8px 0;
+    padding: 12px 12px;
     gap: 8px;
-    height: 40px;
     width: 100%;
     text-decoration: none;
     cursor: pointer;
 
     &.sidebarItemExpand {
-        width: 210px;
+        width: 240px;
     }
 
     &:hover {
@@ -216,37 +156,20 @@ const menuToolList = [
 .sidebarItemIcon {
     object-fit: contain;
     margin: auto;
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     margin: 0;
-}
-
-.sidebarPemiumItem {
-    padding: 4px 0;
-
-    &:hover {
-        background-color: #f5f5f5;
-    }
-}
-
-.sidebarPemiumItemText {
-    font-weight: 600;
-    color: #dc9e00;
 }
 
 .sidebarItemTitle {
     font-size: 13px;
     width: 65%;
-    font-weight: 500;
     letter-spacing: 0.3px;
+    @include text-style(16px,500,24px,var(--color-gray-dark));
 
     &.sidebarActiveItem {
         font-weight: 600;
     }
-}
-
-.sidebarItemBorder {
-    border-bottom: 1px solid #dee1e3;
 }
 
 .sidebarItemBoxIcon {

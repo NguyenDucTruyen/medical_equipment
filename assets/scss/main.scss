@@ -1,0 +1,67 @@
+@import "./variables";
+@import "./minxins";
+body {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin text-style(
+  $font-size: 16px,
+  $font-weight: normal,
+  $line-height: 1.5,
+  $color: #252525
+) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+
+* {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+button {
+  margin: 0;
+  padding: 0;
+  color: var(--color-gray-darker);
+}
+
+button {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+  cursor: default;
+  border-radius: 8px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc; 
+  cursor: default;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ddd; 
+}

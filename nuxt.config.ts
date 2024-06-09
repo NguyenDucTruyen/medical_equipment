@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: false,
+  css: ["@/assets/css/main.css"],
   vite: {
     css: {
       preprocessorOptions: {
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: ['@pinia/nuxt','@element-plus/nuxt','@nuxtjs/color-mode'],
+  modules: ['@pinia/nuxt','@element-plus/nuxt','@nuxtjs/color-mode','@nuxtjs/tailwindcss'],
   app: {
     head: {
       title:'Bệnh viện Đà Nẵng',
@@ -20,5 +21,10 @@ export default defineNuxtConfig({
     ]
     },
     
+  },
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL || 'http://api.example.com/',
+    },
   },
 })

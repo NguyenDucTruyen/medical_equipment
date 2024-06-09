@@ -71,7 +71,6 @@ function log(value: any) {
             />
           </template>
         </el-input>
-      </div>
       <el-select
           v-model="category"
           clearable
@@ -86,6 +85,10 @@ function log(value: any) {
             :value="item.maDM"
           />
         </el-select>
+      </div>
+      <div :class="$style.searchBar">
+        <el-button type="primary">Tạo phiếu nhập</el-button>
+      </div>
     </div>
     <el-table
       :data="filterData"
@@ -131,9 +134,12 @@ function log(value: any) {
   display: flex;
   padding: 12px 0;
   gap: 20px;
+  justify-content: space-between;
 }
 .searchBar {
-    width: 320px;
+    display: flex;
+    // flex-direction: 
+    gap: 20px;
 }
 .titlePage {
   @include text-style(20px, 600, 30px, var(--color-gray-dark));

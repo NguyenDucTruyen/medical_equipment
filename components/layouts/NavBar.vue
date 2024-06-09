@@ -1,23 +1,43 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { Icon } from '@iconify/vue'
-
+import { useRoute } from "vue-router";
+import { Icon } from "@iconify/vue";
+const userStore = useUserStore();
 defineProps<{
-  isExpand: boolean
-}>()
+  isExpand: boolean;
+}>();
 
 defineEmits<{
-  (e: 'toggleSidebar'): void
-}>()
+  (e: "toggleSidebar"): void;
+}>();
 
-const route = useRoute()
+const route = useRoute();
+const popUpVisibility = ref(false);
 const title = computed(() => {
-  const name = (String(route.name) ?? '').split('-')
+  const name = (String(route.name) ?? "").split("-");
   const title = name
     .map((n: string) => n.charAt(0).toUpperCase() + n.slice(1))
-    .join(' ')
-  return title === 'Index' ? 'Trang chủ' : title
-})
+    .join(" ");
+  return title === "Index" ? "Trang chủ" : title;
+});
+const vClickOutside = (el: HTMLElement, binding: any) => {
+  if (!!el) {
+    console.log(el, binding.value);
+    const handler = (e: MouseEvent) => {
+      if (!el.contains(e.target as Node) && el !== e.target) {
+        binding.value();
+      }
+    };
+    document.addEventListener("click", handler);
+    onBeforeUnmount(() => {
+      document.removeEventListener("click", handler);
+    });
+  } else {
+    console.log("el is null");
+  }
+};
+function hiddenPopup() {
+  popUpVisibility.value = false;
+}
 </script>
 
 <template>
@@ -27,71 +47,80 @@ const title = computed(() => {
         :class="$style.headerIconCollapse"
         @click="$emit('toggleSidebar')"
       >
-        <img src="@/assets/icons/Menu.svg" :class="$style.iconMenu" alt="logo">
-        <img v-if="isExpand" src="@/assets/icons/arrow-double-left-color.svg" :class="$style.iconToggleSideBar" alt="logo">
-        <img v-else src="@/assets/icons/arrow-double-right-color.svg" :class="$style.iconToggleSideBar" alt="logo">
+        <img
+          src="@/assets/icons/Menu.svg"
+          :class="$style.iconMenu"
+          alt="logo"
+        />
+        <img
+          v-if="isExpand"
+          src="@/assets/icons/arrow-double-left-color.svg"
+          :class="$style.iconToggleSideBar"
+          alt="logo"
+        />
+        <img
+          v-else
+          src="@/assets/icons/arrow-double-right-color.svg"
+          :class="$style.iconToggleSideBar"
+          alt="logo"
+        />
       </button>
       <NuxtLink to="/" :class="$style.headerLogo">
-        <img src="@/assets/images/logo_dana_hospital.png" alt="logo">
+        <img src="@/assets/images/logo_dana_hospital.png" alt="logo" />
         <span :class="$style.headerLogoName">BỆNH VIỆN ĐÀ NẴNG</span>
       </NuxtLink>
     </div>
-    <div :class="$style.headerSection">
+    <!-- <div :class="$style.headerSection">
       <div :class="$style.headerCenter">
         {{ title }}
       </div>
-    </div>
+    </div> -->
     <div :class="$style.headerSection">
       <div :class="[$style.headerCenter, $style.headerCenterRight]">
         <div :class="$style.headerCenterRightUser">
-          <AtomsButtonIcon tooltip-text="Language">
-            <img src="@/assets/icons/User.svg" alt="notification">
-          </AtomsButtonIcon>
-          <div :class="$style.headerRightPopup">
+          <div
+            :class="$style.headerCenterRightUserInfo"
+            @click="popUpVisibility = true"
+          >
+            <AtomsButtonIcon tooltip-text="Language">
+              <img src="@/assets/icons/User.svg" alt="notification" />
+            </AtomsButtonIcon>
+            <span>{{ userStore?.user?.tenNguoiDung }}</span>
+          </div>
+          <div
+            v-if="popUpVisibility"
+            :class="$style.headerRightPopup"
+            v-click-out-side="hiddenPopup"
+          >
             <div :class="$style.headerRightPopupItem">
+              <div :class="$style.headerRightPopupItemChild">
+                <Icon
+                  icon="ri:profile-line"
+                  :class="$style.headerRightPopupItemChildIcon"
+                  style="color: #5f6368"
+                />
+                <span :class="$style.headerRightPopupItemText"
+                  >Hồ sơ cá nhân</span
+                >
+              </div>
+              <div :class="$style.headerRightPopupItemChild">
+                <Icon icon="icon-park-outline:right" style="color: #5f6368" />
+              </div>
+            </div>
+            <div
+              :class="$style.headerRightPopupItem"
+              @click="userStore.clearUserStore()"
+            >
               <div :class="$style.headerRightPopupItemChild">
                 <Icon
                   icon="material-symbols:logout"
                   :class="$style.headerRightPopupItemChildIcon"
                   style="color: #5f6368"
                 />
-                <span :class="$style.headerRightPopupItemText">Login in / Sign up</span>
+                <span :class="$style.headerRightPopupItemText">Đăng xuất</span>
               </div>
               <div :class="$style.headerRightPopupItemChild">
                 <Icon icon="icon-park-outline:right" style="color: #5f6368" />
-              </div>
-            </div>
-            <div :class="$style.headerRightPopupItem">
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon
-                  icon="solar:moon-linear"
-                  :class="$style.headerRightPopupItemChildIcon"
-                  style="color: #5f6368"
-                />
-                <span :class="$style.headerRightPopupItemText">Dark mode</span>
-              </div>
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon icon="icon-park-outline:right" style="color: #5f6368" />
-              </div>
-            </div>
-            <div :class="$style.headerRightPopupItem">
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon
-                  icon="ph:question"
-                  :class="$style.headerRightPopupItemChildIcon"
-                  style="color: #5f6368"
-                />
-                <span :class="$style.headerRightPopupItemText">Help Center</span>
-              </div>
-            </div>
-            <div :class="$style.headerRightPopupItem">
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon
-                  icon="ic:outline-email"
-                  :class="$style.headerRightPopupItemChildIcon"
-                  style="color: #5f6368"
-                />
-                <span :class="$style.headerRightPopupItemText">Contact Us</span>
               </div>
             </div>
           </div>
@@ -153,7 +182,7 @@ const title = computed(() => {
   }
   &:active {
     img {
-      background-color: var(--color-primary-opacity)
+      background-color: var(--color-primary-opacity);
     }
   }
 }
@@ -163,7 +192,7 @@ const title = computed(() => {
   gap: 10px;
   align-items: center;
   justify-content: center;
-  @include text-style(1rem,700,normal,var(--color-gray-dark));
+  @include text-style(1rem, 700, normal, var(--color-gray-dark));
 }
 .headerButtonPremium {
   padding: 6px 13.5px;
@@ -200,6 +229,10 @@ const title = computed(() => {
   display: flex;
   align-items: center;
   text-decoration: none;
+  img {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .headerLogoImage {
@@ -213,7 +246,7 @@ const title = computed(() => {
 
 .headerLogoName {
   padding-left: 12px;
-  @include text-style(16px,600,24px,var(--color-gray-dark));
+  @include text-style(16px, 600, 24px, var(--color-gray-dark));
   cursor: pointer;
 }
 
@@ -228,21 +261,28 @@ const title = computed(() => {
 .headerCenterRightUser {
   position: relative;
 }
-.headerCenterRightUser:hover .headerRightPopup {
-  // display: flex;
+.headerCenterRightUserInfo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor:pointer;
+  span {
+    @include text-style(16px, 500, 24px, var(--color-gray-dark));
+  }
 }
+
 .headerRightPopup {
   position: absolute;
   right: 0px;
   top: 45px;
   width: 230px;
-  padding: 8px 12px;
+  padding: 8px 0;
   display: flex;
-  display: none;
   flex-direction: column;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.17) 0px 2px 6px;
+  z-index: 3;
 }
 
 .headerRightPopupItem {
@@ -252,17 +292,10 @@ const title = computed(() => {
   box-sizing: content-box;
   height: 24px;
   cursor: pointer;
-  padding: 12px 0;
-}
-
-.headerRightPopup .headerRightPopupItem:last-child,
-.headerRightPopup .headerRightPopupItem:first-child {
-  padding-top: 0;
-}
-
-.headerRightPopup .headerRightPopupItem:nth-child(1),
-.headerRightPopup .headerRightPopupItem:nth-child(2) {
-  border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+  padding: 12px;
+  &:hover {
+    background-color: var(--color-gray-lighter);
+  }
 }
 
 .headerRightPopupItemChild {

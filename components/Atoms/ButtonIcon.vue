@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <AtomsToolTip>
-    <div :class="$style.buttonIcon">
+    <div :class=" $style.buttonIcon ">
       <slot />
     </div>
   </AtomsToolTip>
@@ -23,9 +23,10 @@ defineProps({
   width: 32px;
   height: 32px;
   padding: 4px;
-}
-img {
-  width: 24px;
-  height: 24px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
 }
 </style>

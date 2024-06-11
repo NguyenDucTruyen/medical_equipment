@@ -1,3 +1,6 @@
 .el-select__wrapper {
-    height: 40px;
-  }
+  height: 40px;
+}
+.el-input__wrapper .el-input__inner {
+  color: #252525;
+}

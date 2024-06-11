@@ -20,7 +20,7 @@ export interface category {
 }
 type statusUser = 1 | 0;
 export interface User {
-    "maNguoiDung": string,
+    "maNguoiDung": string | null,
     "tenNguoiDung": string,
     "email": string,
     "ngaySinh": string,
@@ -29,4 +29,5 @@ export interface User {
     "trangThai": statusUser,
     "maChucVu": string,
     "maKhoa": string | null,
+    "tenChucVu": string | null
 }

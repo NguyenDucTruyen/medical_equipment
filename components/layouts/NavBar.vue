@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { Icon } from "@iconify/vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+
 const userStore = useUserStore();
 defineProps<{
   isExpand: boolean;
@@ -11,7 +13,9 @@ defineEmits<{
 }>();
 
 const route = useRoute();
+const router = useRouter();
 const popUpVisibility = ref(false);
+const showConfirm = ref(false);
 const title = computed(() => {
   const name = (String(route.name) ?? "").split("-");
   const title = name
@@ -35,8 +39,32 @@ const vClickOutside = (el: HTMLElement, binding: any) => {
     console.log("el is null");
   }
 };
+function navigateToProfile() {
+  popUpVisibility.value = false;
+  router.push("/user");
+}
 function hiddenPopup() {
   popUpVisibility.value = false;
+}
+function logout() {
+  ElMessageBox.confirm("Bạn có muốn đăng xuất?", "Đăng xuất", {
+    confirmButtonText: "Đồng ý",
+    cancelButtonText: "Hủy",
+    type: "info",
+  })
+    .then(() => {
+      userStore.clearUserStore();
+    })
+    .catch(() => {});
+
+  // const promise = new Promise((resolve, reject) => {
+  //   // const vl = confirm("Đăng xuất hay không");
+  //   // resolve(vl);
+  //   showConfirm.value = true;
+  // });
+  // promise.then((res) => {
+  //   alert(res ? "Đăng xuất" : "Hủy");
+  // });
 }
 </script>
 
@@ -92,7 +120,10 @@ function hiddenPopup() {
             :class="$style.headerRightPopup"
             v-click-out-side="hiddenPopup"
           >
-            <div :class="$style.headerRightPopupItem">
+            <div
+              :class="$style.headerRightPopupItem"
+              @click="navigateToProfile"
+            >
               <div :class="$style.headerRightPopupItemChild">
                 <Icon
                   icon="ri:profile-line"
@@ -107,10 +138,7 @@ function hiddenPopup() {
                 <Icon icon="icon-park-outline:right" style="color: #5f6368" />
               </div>
             </div>
-            <div
-              :class="$style.headerRightPopupItem"
-              @click="userStore.clearUserStore()"
-            >
+            <div :class="$style.headerRightPopupItem" @click="logout">
               <div :class="$style.headerRightPopupItemChild">
                 <Icon
                   icon="material-symbols:logout"
@@ -127,6 +155,7 @@ function hiddenPopup() {
         </div>
       </div>
     </div>
+    <CommonConfirm v-if="showConfirm" />
   </div>
 </template>
 
@@ -265,7 +294,7 @@ function hiddenPopup() {
   display: flex;
   gap: 10px;
   align-items: center;
-  cursor:pointer;
+  cursor: pointer;
   span {
     @include text-style(16px, 500, 24px, var(--color-gray-dark));
   }

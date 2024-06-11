@@ -14,7 +14,6 @@ export const useUserStore = defineStore({
         async getUserInfo(idUser: string) {
             getInfoUser(idUser).then((res: any) => {
                 this.setUser(res.data);
-                navigateTo('/')
             }).catch((err) => {
                 const message = err.response?._data?.message ?? 'Có lỗi xảy ra'
                 ElNotification.error({

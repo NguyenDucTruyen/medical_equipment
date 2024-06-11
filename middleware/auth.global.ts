@@ -5,8 +5,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const maNguoiDung = localStorage.getItem('maNguoiDung');
     if (!maNguoiDung && to.path !== '/login') {
         return navigateTo('login')
-        console.log('chua dang nhap')
-    } else if (userStore.user === null && maNguoiDung) {
+    } else if (maNguoiDung && userStore.user === null && to.path === '/login') {
+        userStore.getUserInfo(JSON.parse(maNguoiDung));
+        return navigateTo('/')
+        
+        } else if (maNguoiDung && userStore.user === null) {
         userStore.getUserInfo(JSON.parse(maNguoiDung));
     } else if (userStore.user !== null && to.path === '/login') {
         return navigateTo('/')

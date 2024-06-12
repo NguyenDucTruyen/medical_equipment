@@ -14,6 +14,7 @@ const menuList = [
     color: "#409eff",
     title: "Thiết bị y tế tại kho",
     path: "/",
+    name:"index"
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const menuList = [
     color: "#409eff",
     title: "Xử lý nhập",
     path: "/import",
+    name:"import"
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const menuList = [
     color: "#409eff",
     title: "Plagiarism Checker",
     path: "/plagiarism-checker",
+    name:"plagiarism-checker"
   },
   {
     id: 5,
@@ -35,6 +38,7 @@ const menuList = [
     color: "#409eff",
     title: "Summerizer",
     path: "/summerizer",
+    name:"summerizer"
   },
 ];
 </script>
@@ -51,12 +55,12 @@ const menuList = [
             :style="{ backgroundColor: item.color }"
             :class="[
               $style.sidebarBorderItem,
-              route.path === item.path && $style.sidebarActiveItem,
+              route.path.includes(item.name) && $style.sidebarActiveItem,
             ]"
           />
           <div
             :class="$style.sidebarItemIconBox"
-            :style="{ backgroundColor: route.path === item.path ? item.color : 'var(--color-gray-dark)' }"
+            :style="{ backgroundColor: route.path.includes(item.name) ? item.color : 'var(--color-gray-dark)' }"
           >
             <img :src="item.icon" alt="" width="20" height="20" />
           </div>
@@ -65,10 +69,10 @@ const menuList = [
             v-show="isExpand"
             :class="[
               $style.sidebarItemTitle,
-              route.path === item.path && $style.sidebarActiveItem,
+              route.path.includes(item.name) && $style.sidebarActiveItem,
             ]"
             :style="{
-              color: route.path === item.path ? item.color : 'inherit',
+              color: route.path.includes(item.name) ? item.color : 'inherit',
             }"
           >
             {{ item.title }}

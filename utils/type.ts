@@ -31,3 +31,28 @@ export interface User {
     "maKhoa": string | null,
     "tenChucVu": string | null
 }
+
+export interface DetailRequest {
+    maPhieu: string;
+    maNguoiTao: string;
+    maNguoiDuyet: string;
+    maNguoiXacNhan: string;
+    ngayTao: string;
+    ngayDuyet: string;
+    ngayXacNhan: string;
+    trangThai: string;
+    tenNguoiTao: string;
+    tenNguoiDuyet: string;
+    tenNguoiXacNhan: string;
+    chitiet: {
+        maPhieu: string;
+        maTB: string;
+        soLuongYeuCau: number;
+        soLuongDuyet: number;
+        lyDo: string;
+        tenTB: string;
+        hinhAnh: string;
+        maDM: string;
+        tenDM: string;
+    }[];
+}

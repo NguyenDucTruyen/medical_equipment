@@ -8,15 +8,15 @@ import {
 } from "@/composables/devices";
 const { $formatTime } = useNuxtApp();
 
-type status = "Chưa duyệt" | "Từ Chối" | "Đã Duyệt" | "Đã xác nhận";
+type status = "Chưa duyệt" | "Từ chối" | "Đã duyệt" | "Đã xác nhận";
 // const user = useUserStore()
 const request = ref([]);
 const currentPage = ref(1);
 const currentStatus = ref<status>("Chưa duyệt");
 const statusList: status[] = [
   "Chưa duyệt",
-  "Từ Chối",
-  "Đã Duyệt",
+  "Từ chối",
+  "Đã duyệt",
   "Đã xác nhận",
 ];
 onMounted(async () => {

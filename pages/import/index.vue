@@ -9,7 +9,7 @@ import {
 const { $formatTime } = useNuxtApp();
 
 type status = "Chưa duyệt" | "Từ chối" | "Đã duyệt" | "Đã xác nhận";
-// const user = useUserStore()
+const user = useUserStore()
 const request = ref([]);
 const currentPage = ref(1);
 const currentStatus = ref<status>("Chưa duyệt");
@@ -63,7 +63,12 @@ function goToDetail(value: any) {
         </div>
       </div>
       <div :class="$style.searchBar">
-        <el-button type="primary">Tạo phiếu nhập</el-button>
+        <NuxtLink
+          v-if="user.user?.maChucVu === 'CV00003'"
+          to="/import/create"
+        >
+          <el-button type="primary">Tạo phiếu nhập</el-button>
+        </NuxtLink>
       </div>
     </div>
     <el-table

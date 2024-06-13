@@ -101,7 +101,7 @@ function confirmImportDevices() {
       <el-breadcrumb-item>Chi tiết phiếu nhập</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="flex justify-between p-5">
-      <h3 class="text-xl leading-6 font-semibold text-gray-600">
+      <h3 class="text-xl text-center leading-6 font-semibold text-gray-600">
         Chi tiết phiếu nhập
       </h3>
       <div

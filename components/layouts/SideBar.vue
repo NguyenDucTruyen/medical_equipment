@@ -14,7 +14,7 @@ const menuList = [
     color: "#409eff",
     title: "Thiết bị y tế tại kho",
     path: "/",
-    name:"index"
+    name: "index",
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const menuList = [
     color: "#409eff",
     title: "Xử lý nhập",
     path: "/import",
-    name:"import"
+    name: "import",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const menuList = [
     color: "#409eff",
     title: "Plagiarism Checker",
     path: "/plagiarism-checker",
-    name:"plagiarism-checker"
+    name: "plagiarism-checker",
   },
   {
     id: 5,
@@ -38,9 +38,15 @@ const menuList = [
     color: "#409eff",
     title: "Summerizer",
     path: "/summerizer",
-    name:"summerizer"
+    name: "summerizer",
   },
 ];
+function checkPath(path: string) {
+  if (route.path === "/") return route.path === path;
+  else {
+    return route.path.split("/")[1] === path.split("/")[1];
+  }
+}
 </script>
 
 <template>
@@ -55,12 +61,16 @@ const menuList = [
             :style="{ backgroundColor: item.color }"
             :class="[
               $style.sidebarBorderItem,
-              route.path.includes(item.name) && $style.sidebarActiveItem,
+              checkPath(item.path) && $style.sidebarActiveItem,
             ]"
           />
           <div
             :class="$style.sidebarItemIconBox"
-            :style="{ backgroundColor: route.path.includes(item.name) ? item.color : 'var(--color-gray-dark)' }"
+            :style="{
+              backgroundColor: checkPath(item.path)
+                ? item.color
+                : 'var(--color-gray-dark)',
+            }"
           >
             <img :src="item.icon" alt="" width="20" height="20" />
           </div>
@@ -69,10 +79,10 @@ const menuList = [
             v-show="isExpand"
             :class="[
               $style.sidebarItemTitle,
-              route.path.includes(item.name) && $style.sidebarActiveItem,
+              checkPath(item.path) && $style.sidebarActiveItem,
             ]"
             :style="{
-              color: route.path.includes(item.name) ? item.color : 'inherit',
+              color: checkPath(item.path) ? item.color : 'inherit',
             }"
           >
             {{ item.title }}
@@ -110,7 +120,7 @@ const menuList = [
   padding: 8px 0;
   display: flex;
   flex-direction: column;
-//   gap: 10px;
+  //   gap: 10px;
 }
 
 .sidebarItem {

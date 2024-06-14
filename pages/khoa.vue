@@ -1,28 +1,33 @@
 <script setup lang="ts">
-import { getDevices, getCategories } from "@/composables/devices";
-import type { device, category } from "@/utils/type";
+import { getAllDevicesExported, getCategories } from "@/composables/devices";
+import type { khoaDevices, category, khoa } from "@/utils/type";
 // const user = useUserStore()
 const devices = ref([]);
 const currentPage = ref(1);
 const searchValue = ref("");
 const category = ref("");
 const categoryList = ref<category[]>([]);
+const khoaList = ref<khoa[]>([]);
+const khoa = ref("");
 onMounted(async () => {
-  getDevices().then((res: any) => {
+  getAllDevicesExported().then((res: any) => {
     devices.value = res.data;
+    khoaList.value = res.khoa;
   });
   getCategories().then((res: any) => {
     categoryList.value = res.data;
   });
 });
 const filterDataSearch = computed(() => {
-  if (searchValue.value || category.value) {
+  if (searchValue.value || category.value || khoa.value) {
+    console.log(category.value);
     return devices.value.filter(
-      (device: device) =>
+      (device: khoaDevices) =>
         device.tenTB
           .toLowerCase()
           .includes(searchValue.value.trim().toLowerCase()) &&
-        (category.value ? device.danhmuc.maDM === category.value : true)
+        (category.value ? device.maDM === category.value : true) &&
+        (khoa.value ? device.maKhoa === khoa.value : true)
     );
   }
   return devices.value;
@@ -86,6 +91,19 @@ function log(value: any) {
           :value="item.maDM"
         />
       </el-select>
+      <el-select
+        v-model="khoa"
+        clearable
+        placeholder="Tất cả khoa"
+        style="width: 240px; height: 40px"
+      >
+        <el-option
+          v-for="item in khoaList"
+          :key="item.maKhoa"
+          :label="item.tenKhoa"
+          :value="item.maKhoa"
+        />
+      </el-select>
     </div>
     <el-table
       :data="filterData"
@@ -103,12 +121,11 @@ function log(value: any) {
         </template>
       </el-table-column>
       <el-table-column prop="tenTB" label="Tên thiết bị" />
+      <el-table-column prop="tenKhoa" label="Khoa" />
       <el-table-column prop="soLuong" label="Số Lượng" />
       <el-table-column prop="danhmuc" label="Danh mục">
         <template #default="scope">
-          <span :class="$style.cellSpan" @click="log(scope.row.danhmuc)">{{
-            scope.row.danhmuc.tenDM
-          }}</span>
+          <span :class="$style.cellSpan">{{ scope.row.tenDM }}</span>
         </template>
       </el-table-column>
     </el-table>

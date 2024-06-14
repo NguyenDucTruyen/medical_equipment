@@ -32,6 +32,19 @@ const confirmImported = async (data: any) => {
     const res = await fetchAPI("PUT", `/devices/import/confirm`, data)
     return res
 }
+
+const getExportRequest = async () => {
+    const res = await fetchAPI("GET", '/devices/export', null)
+    return res
+}
+const getAllDevicesExported = async () => {
+    const res = await fetchAPI("GET", '/devices/export/khoa', null)
+    return res
+}
+const getDetailExportRequest = async (id: string) => {
+    const res = await fetchAPI("GET", `/devices/export/${ id }`, null)
+    return res
+}
 export {
     getDevices,
     getCategories,
@@ -39,5 +52,8 @@ export {
     getDetailImportRequest,
     createImportRequest,
     approveImportRequest,
-    confirmImported
+    confirmImported,
+    getExportRequest,
+    getAllDevicesExported,
+    getDetailExportRequest
 };

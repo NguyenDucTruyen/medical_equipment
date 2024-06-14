@@ -56,3 +56,18 @@ export interface DetailRequest {
         tenDM: string;
     }[];
 }
+export interface khoaDevices {
+    "maTB": string,
+    "hinhAnh": string,
+    "tenTB": string,
+    "tenDM": string,
+    "maDM": string,
+    "tenKhoa": string,
+    "soLuong": number,
+    "maKhoa": string
+}
+export interface khoa {
+    "maKhoa": string,
+    "tenKhoa": string,
+    "moTa": string,
+}

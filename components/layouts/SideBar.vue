@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-
+const user = useUserStore();
 defineProps<{
   isExpand: boolean;
 }>();
@@ -10,35 +10,39 @@ const route = useRoute();
 const menuList = [
   {
     id: 1,
-    icon: "https://assets.quillbot.com/images/theme/commonImages/paraphraser-new.svg",
-    color: "#409eff",
+    icon: "https://static.vecteezy.com/system/resources/previews/020/911/731/non_2x/profile-icon-avatar-icon-user-icon-person-icon-free-png.png",
+    title: "Người dùng",
+    path: "/manage-user",
+    name: "manage-user",
+    hide: user.user?.maChucVu !== "CV00000",
+  },
+  {
+    id: 2,
+    icon: "https://png.pngtree.com/png-clipart/20230504/original/pngtree-checklist-line-icon-png-image_9137991.png",
     title: "Thiết bị y tế tại kho",
     path: "/",
     name: "index",
   },
   {
-    id: 2,
-    icon: "https://assets.quillbot.com/images/theme/commonImages/grammar-checker-new.svg",
-    color: "#409eff",
+    id: 3,
+    icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-import-vector-icon-design-illustration-png-image_8987861.png",
     title: "Xử lý nhập",
     path: "/import",
     name: "import",
   },
   {
-    id: 3,
-    icon: "https://assets.quillbot.com/images/theme/commonImages/plag-checker-new.svg",
-    color: "#409eff",
-    title: "Plagiarism Checker",
-    path: "/plagiarism-checker",
-    name: "plagiarism-checker",
+    id: 4,
+    icon: "https://png.pngtree.com/png-clipart/20230504/original/pngtree-workflow-line-icon-png-image_9139036.png",
+    title: "Thiết bị y tế tại khoa",
+    path: "/khoa",
+    name: "khoa",
   },
   {
     id: 5,
-    icon: "https://assets.quillbot.com/images/theme/commonImages/summarizer-new.svg",
-    color: "#409eff",
-    title: "Summerizer",
-    path: "/summerizer",
-    name: "summerizer",
+    icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-export-vector-icon-design-illustration-png-image_8987859.png",
+    title: "Xử lý xuất",
+    path: "/export",
+    name: "export",
   },
 ];
 function checkPath(path: string) {
@@ -54,11 +58,11 @@ function checkPath(path: string) {
     <div :class="[$style.sidebarItemBorder, $style.sidebarItemBox]">
       <div v-for="item in menuList" :key="item.id">
         <RouterLink
+          v-if="!item.hide"
           :to="item.path"
-          :class="[$style.sidebarItem, isExpand && $style.sidebarItemExpand]"
+          :class="[$style.sidebarItem, isExpand && $style.sidebarItemExpand, checkPath(item.path) && $style.sidebarActiveItem]"
         >
           <div
-            :style="{ backgroundColor: item.color }"
             :class="[
               $style.sidebarBorderItem,
               checkPath(item.path) && $style.sidebarActiveItem,
@@ -68,8 +72,8 @@ function checkPath(path: string) {
             :class="$style.sidebarItemIconBox"
             :style="{
               backgroundColor: checkPath(item.path)
-                ? item.color
-                : 'var(--color-gray-dark)',
+                ? 'white'
+                : 'var(--color-gray-light)',
             }"
           >
             <img :src="item.icon" alt="" width="20" height="20" />
@@ -82,7 +86,7 @@ function checkPath(path: string) {
               checkPath(item.path) && $style.sidebarActiveItem,
             ]"
             :style="{
-              color: checkPath(item.path) ? item.color : 'inherit',
+              color: checkPath(item.path) ? '#fff' : 'inherit',
             }"
           >
             {{ item.title }}
@@ -134,8 +138,14 @@ function checkPath(path: string) {
   cursor: pointer;
   position: relative;
 
+  &.sidebarActiveItem {
+    background-color: var(--color-primary);
+    &:hover {
+      background-color: var(--color-primary);
+    }
+  }
   &.sidebarItemExpand {
-    width: 250px;
+    width: 260px;
   }
 
   &:hover {
@@ -176,6 +186,8 @@ function checkPath(path: string) {
 
   &.sidebarActiveItem {
     font-weight: 600;
+    color: #fff;
+
   }
 }
 

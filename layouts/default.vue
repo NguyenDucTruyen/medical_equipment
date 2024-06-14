@@ -49,7 +49,7 @@ function toggleSidebar() {
   min-width: 50px;
   background-color: #fff;
   &.defaultBodySideBarExpand {
-    min-width: 250px;
+    min-width: 260px;
   }
 }
 

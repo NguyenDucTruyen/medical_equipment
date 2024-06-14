@@ -1,0 +1,141 @@
+<script setup lang="ts">
+import type { User } from "@/utils/type";
+import { ElNotification } from "element-plus";
+import viLocale from "element-plus/es/locale/lang/vi";
+import { ArrowRight } from "@element-plus/icons-vue";
+const { $handleErrorApi, $timeConvert } = useNuxtApp();
+const route = useRoute();
+const user = ref<User>();
+const userCache = ref({
+  diaChi: "",
+  email: "",
+  ngaySinh: "",
+  CCCD: "",
+  tenChucVu: "",
+  tenNguoiDung: "",
+  maKhoa: "",
+  khoa: {
+    tenKhoa: "",
+  },
+});
+const maNguoiDung = route.params.id;
+const editable = ref(false);
+const disabledDate = (time: Date) => {
+  return time.getTime() > Date.now();
+};
+const ngay = ref("");
+onMounted(() => {
+  fetchUserInfo();
+});
+function fetchUserInfo() {
+  getInfoUser(maNguoiDung)
+    .then((res: any) => {
+      user.value = res.data;
+      userCache.value = res.data;
+      userCache.value.ngaySinh = $timeConvert(userCache.value.ngaySinh);
+    })
+    .catch((err) => {
+      const message = err.response?._data?.message ?? "Có lỗi xảy ra";
+      ElNotification.error({
+        title: "Thất bại",
+        message: message,
+        offset: 10,
+      });
+      localStorage.removeItem("maNguoiDung");
+      navigateTo("/login");
+    });
+}
+function resetPassword() {
+    ElNotification.success({
+      title: "Thành công",
+      message: "Đặt lại mật khẩu thành công",
+      offset: 10,
+    });
+}
+</script>
+<template>
+  <div class="bg-white overflow-hidiven shadow rounded-lg border">
+    <el-breadcrumb :separator-icon="ArrowRight" class="pt-6 pl-6">
+      <el-breadcrumb-item :to="{ path: '/manage-user' }"
+        >Người dùng</el-breadcrumb-item
+      >
+      <el-breadcrumb-item>Thông tin người dùng</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="flex justify-between items-center px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-500">
+        Thông tin người dùng
+      </h3>
+      <el-button type="primary" plain @click="resetPassword"
+        >Đặt lại mật khẩu</el-button
+      >
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Mã người dùng</dt>
+          <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
+            {{ userCache.maNguoiDung }}
+          </div>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Họ và tên</dt>
+          <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
+            {{ userCache.tenNguoiDung }}
+          </div>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Chức vụ</dt>
+          <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
+            {{ userCache.tenChucVu }}
+          </div>
+        </div>
+        <div
+          v-if="userCache.maKhoa"
+          class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        >
+          <dt class="text-sm font-medium text-gray-500">Khoa</dt>
+          <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
+            {{ userCache.khoa.tenKhoa }}
+          </div>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Căn cước công dân</dt>
+          <input
+            v-model="userCache.CCCD"
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
+          />
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Ngày sinh</dt>
+          <!-- <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
+            {{ userCache.ngaySinh }}
+          </div> -->
+          <el-config-provider :locale="viLocale">
+            <el-date-picker
+              v-model="userCache.ngaySinh"
+              type="date"
+              placeholder="Chọn ngày sinh"
+              format="DD/MM/YYYY"
+              value-format="YYYY-MM-DD"
+              readonly
+            />
+          </el-config-provider>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Email</dt>
+          <input
+            v-model="userCache.email"
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
+          />
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Địa chỉ</dt>
+          <input
+            v-model="userCache.diaChi"
+            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
+          />
+        </div>
+      </dl>
+    </div>
+  </div>
+</template>

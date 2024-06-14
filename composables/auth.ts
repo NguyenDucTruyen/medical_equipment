@@ -9,4 +9,8 @@ const getInfoUser = async (idUser: string) => {
 const updateInfoUser = async (idUser: string, data: any) => {
     return await fetchAPI("PUT", `/auth/user/${ idUser }`, data);
 }
-export { apiLogin, getInfoUser, updateInfoUser};
+
+const getAllUser = async () => {
+    return await fetchAPI("GET", `/auth/user`, null);
+}   
+export { apiLogin, getInfoUser, updateInfoUser, getAllUser};

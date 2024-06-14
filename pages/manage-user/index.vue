@@ -2,7 +2,7 @@
 import { getDevices, getCategories } from "@/composables/devices";
 import type { device, category } from "@/utils/type";
 import { getAllUser } from "@/composables/auth";
-
+import { ArrowRight } from "@element-plus/icons-vue";
 const users = ref([]);
 // const user = useUserStore()
 const currentPage = ref(1);
@@ -48,6 +48,12 @@ function log(value: any) {
 
 <template>
   <div :class="$style.manageDevices">
+    <el-breadcrumb :separator-icon="ArrowRight" class="pt-4 pb-2">
+      <el-breadcrumb-item :to="{ path: '/' }"
+        >Người dùng</el-breadcrumb-item
+      >
+      <el-breadcrumb-item>Xem danh sách</el-breadcrumb-item>
+    </el-breadcrumb>
     <div :class="$style.manageDevicesHeader">
       <div :class="$style.searchBar">
         <el-input

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { getDetailExportRequest } from "@/composables/devices";
 import { ArrowRight } from "@element-plus/icons-vue";
-import type { DetailRequest } from "@/utils/type";
+import type { DetailRequestExport } from "@/utils/type";
 const { $formatTime } = useNuxtApp();
 
 const user = useUserStore();
 const route = useRoute();
 const { id } = route.params as { id: string };
-const detail = ref<DetailRequest>({
+const detail = ref<DetailRequestExport>({
   trangThai: "",
   chitiet: [],
   maPhieu: "",
@@ -20,6 +20,8 @@ const detail = ref<DetailRequest>({
   tenNguoiTao: "",
   tenNguoiDuyet: "",
   tenNguoiXacNhan: "",
+  maKhoa: "",
+  tenKhoa: ""
 });
 onMounted(async () => {
     getDetailExportRequest(id).then((res: any) => {
@@ -51,13 +53,11 @@ onMounted(async () => {
         <el-button
           type="primary"
           plain
-          @click="handleApproveImportRequest(true)"
           >Duyệt</el-button
         >
         <el-button
           type="danger"
           plain
-          @click="handleApproveImportRequest(false)"
           >Từ chối</el-button
         >
       </div>
@@ -69,7 +69,7 @@ onMounted(async () => {
         "
         class="flex items-center space-x-2"
       >
-        <el-button type="primary" @click="confirmImportDevices" plain
+        <el-button type="primary" plain
           >Xác nhận đã cung cấp</el-button
         >
       </div>

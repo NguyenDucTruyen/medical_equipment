@@ -7,7 +7,7 @@ import {
   confirmImported,
 } from "@/composables/devices";
 const { $formatTime } = useNuxtApp();
-
+import { ArrowRight } from "@element-plus/icons-vue";
 type status = "Chưa duyệt" | "Từ chối" | "Đã duyệt" | "Đã xác nhận";
 const user = useUserStore()
 const request = ref([]);
@@ -50,6 +50,12 @@ function goToDetail(value: any) {
 
 <template>
   <div :class="$style.manageDevices">
+    <el-breadcrumb :separator-icon="ArrowRight" class="py-4">
+      <el-breadcrumb-item :to="{ path: '/' }"
+        >Xử lý nhập</el-breadcrumb-item
+      >
+      <el-breadcrumb-item>Xem danh sách</el-breadcrumb-item>
+    </el-breadcrumb>
     <div :class="$style.manageDevicesHeader">
       <div :class="$style.filterBar">
         <div

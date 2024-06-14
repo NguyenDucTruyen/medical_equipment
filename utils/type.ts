@@ -56,6 +56,33 @@ export interface DetailRequest {
         tenDM: string;
     }[];
 }
+
+export interface DetailRequestExport {
+    maPhieu: string;
+    maNguoiTao: string;
+    maNguoiDuyet: string;
+    maNguoiXacNhan: string;
+    ngayTao: string;
+    ngayDuyet: string;
+    ngayXacNhan: string;
+    trangThai: string;
+    tenNguoiTao: string;
+    tenNguoiDuyet: string;
+    tenNguoiXacNhan: string;
+    maKhoa: string;
+    tenKhoa: string;
+    chitiet: {
+        maPhieu: string;
+        maTB: string;
+        soLuongYeuCau: number;
+        soLuongDuyet: number;
+        lyDo: string;
+        tenTB: string;
+        hinhAnh: string;
+        maDM: string;
+        tenDM: string;
+    }[];
+}
 export interface khoaDevices {
     "maTB": string,
     "hinhAnh": string,

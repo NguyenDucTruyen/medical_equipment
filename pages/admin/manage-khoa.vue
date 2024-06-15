@@ -1,37 +1,25 @@
 <script setup lang="ts">
-import { getAllDevicesExported, getCategories } from "@/composables/devices";
-import type { khoaDevices, category, khoa } from "@/utils/type";
+import { adminGetKhoa } from "@/composables/admin";
 import { ArrowRight } from "@element-plus/icons-vue";
+const listKhoa = ref([]);
 // const user = useUserStore()
-const devices = ref([]);
 const currentPage = ref(1);
 const searchValue = ref("");
-const category = ref("");
-const categoryList = ref<category[]>([]);
-const khoaList = ref<khoa[]>([]);
-const khoa = ref("");
 onMounted(async () => {
-  getAllDevicesExported().then((res: any) => {
-    devices.value = res.data;
-    khoaList.value = res.khoa;
-  });
-  getCategories().then((res: any) => {
-    categoryList.value = res.data;
+    adminGetKhoa().then((res: any) => {
+    listKhoa.value = res.data;
   });
 });
 const filterDataSearch = computed(() => {
-  if (searchValue.value || category.value || khoa.value) {
-    console.log(category.value);
-    return devices.value.filter(
-      (device: khoaDevices) =>
-        device.tenTB
+  if (searchValue.value ) {
+    return listKhoa.value.filter(
+      (khoa: any) =>
+        khoa.tenKhoa
           .toLowerCase()
-          .includes(searchValue.value.trim().toLowerCase()) &&
-        (category.value ? device.maDM === category.value : true) &&
-        (khoa.value ? device.maKhoa === khoa.value : true)
+          .includes(searchValue.value.trim().toLowerCase())
     );
   }
-  return devices.value;
+  return listKhoa.value;
 });
 
 const filterData = computed(() => {
@@ -52,8 +40,11 @@ function log(value: any) {
 <template>
   <div :class="$style.manageDevices">
     <el-breadcrumb :separator-icon="ArrowRight" class="pt-4 pb-2">
-      <el-breadcrumb-item :to="{ path: '/' }"
-        >Thiết bị y tế tại các khoa</el-breadcrumb-item
+      <el-breadcrumb-item :to="{ path: '/admin/manage-user' }"
+        >Quản trị hệ thống</el-breadcrumb-item
+      >
+      <el-breadcrumb-item :to="{ path: '/admin/manage-user' }"
+        >Khoa</el-breadcrumb-item
       >
       <el-breadcrumb-item>Xem danh sách</el-breadcrumb-item>
     </el-breadcrumb>
@@ -62,7 +53,7 @@ function log(value: any) {
         <el-input
           v-model="searchValue"
           style="max-width: 400px; height: 40px"
-          placeholder="Nhập tên thiết bị"
+          placeholder="Nhập tên khoa"
           class="input-with-select"
         >
           <template #prepend>
@@ -84,33 +75,9 @@ function log(value: any) {
             />
           </template>
         </el-input>
+        
       </div>
-      <el-select
-        v-model="category"
-        clearable
-        placeholder="Tất cả danh mục"
-        style="width: 240px; height: 40px"
-      >
-        <el-option
-          v-for="item in categoryList"
-          :key="item.maDM"
-          :label="item.tenDM"
-          :value="item.maDM"
-        />
-      </el-select>
-      <el-select
-        v-model="khoa"
-        clearable
-        placeholder="Tất cả khoa"
-        style="width: 240px; height: 40px"
-      >
-        <el-option
-          v-for="item in khoaList"
-          :key="item.maKhoa"
-          :label="item.tenKhoa"
-          :value="item.maKhoa"
-        />
-      </el-select>
+      <el-button type="primary" >Thêm khoa</el-button>
     </div>
     <el-table
       :data="filterData"
@@ -122,17 +89,12 @@ function log(value: any) {
           <span>{{ (currentPage - 1) * 10 + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Hình ảnh">
+      <el-table-column prop="maKhoa" label="Mã khoa" />
+      <el-table-column prop="tenKhoa" label="Tên khoa" />
+      <el-table-column prop="moTa" label="Mô tả" />
+      <el-table-column prop="danhmuc" label="Hành động">
         <template #default="scope">
-          <img :src="scope.row.hinhAnh" alt="" :class="$style.imageTable" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="tenTB" label="Tên thiết bị" />
-      <el-table-column prop="tenKhoa" label="Khoa" />
-      <el-table-column prop="soLuong" label="Số Lượng" />
-      <el-table-column prop="danhmuc" label="Danh mục">
-        <template #default="scope">
-          <span :class="$style.cellSpan">{{ scope.row.tenDM }}</span>
+          <span>Chỉnh sửa</span>
         </template>
       </el-table-column>
     </el-table>
@@ -154,10 +116,13 @@ function log(value: any) {
 .manageDevicesHeader {
   display: flex;
   padding: 12px 0;
-  gap: 20px;
+  justify-content: space-between;
 }
 .searchBar {
-  width: 320px;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
 }
 .titlePage {
   @include text-style(20px, 600, 30px, var(--color-gray-dark));
@@ -176,7 +141,7 @@ function log(value: any) {
   @include truncate(1);
 }
 .pagination {
-  padding-top: 10px;
+  padding: 10px 0;
   justify-content: center;
 }
 </style>

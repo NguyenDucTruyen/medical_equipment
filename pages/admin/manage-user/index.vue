@@ -49,7 +49,10 @@ function log(value: any) {
 <template>
   <div :class="$style.manageDevices">
     <el-breadcrumb :separator-icon="ArrowRight" class="pt-4 pb-2">
-      <el-breadcrumb-item :to="{ path: '/' }"
+      <el-breadcrumb-item :to="{ path: '/admin/manage-user' }"
+        >Quản trị hệ thống</el-breadcrumb-item
+      >
+      <el-breadcrumb-item :to="{ path: '/admin/manage-user' }"
         >Người dùng</el-breadcrumb-item
       >
       <el-breadcrumb-item>Xem danh sách</el-breadcrumb-item>
@@ -99,7 +102,7 @@ function log(value: any) {
     </div>
     <el-table
       :data="filterData"
-      style="width: 100%; height: calc(100% - 100px)"
+      style="width: 100%; height: calc(100% - 140px)"
       :class="$style.table"
     >
       <el-table-column label="STT" width="60px" align="center">
@@ -108,7 +111,7 @@ function log(value: any) {
         </template>
       </el-table-column>
       <el-table-column prop="maNguoiDung" label="Mã người dùng" />
-      <el-table-column prop="tenNguoiDung" label="Tên nguời dùng" />
+      <el-table-column prop="tenNguoiDung" label="Tên người dùng" />
       <el-table-column prop="tenChucVu" label="Tên chức vụ" />
       <el-table-column prop="tenKhoa" label="Khoa" />
       <el-table-column prop="danhmuc" label="Trạng thái">
@@ -118,7 +121,7 @@ function log(value: any) {
       </el-table-column>
       <el-table-column prop="danhmuc" label="Hành động">
         <template #default="scope">
-          <NuxtLink :to="`/manage-user/${scope.row.maNguoiDung}`">Xem thông tin</NuxtLink>
+          <NuxtLink :to="`/admin/manage-user/${scope.row.maNguoiDung}`">Xem thông tin</NuxtLink>
         </template>
       </el-table-column>
     </el-table>
@@ -165,7 +168,7 @@ function log(value: any) {
   @include truncate(1);
 }
 .pagination {
-  padding-top: 10px;
+  padding: 10px 0;
   justify-content: center;
 }
 </style>

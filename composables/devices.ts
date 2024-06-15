@@ -45,6 +45,14 @@ const getDetailExportRequest = async (id: string) => {
     const res = await fetchAPI("GET", `/devices/export/${ id }`, null)
     return res
 }
+const uploadFile = async (data: any) => {
+    const res = await fetchAPI("POST", '/devices/upload', data)
+    return res
+}
+const createImportRequestNew = async (data: any) => {
+    const res = await fetchAPI("POST", '/devices/import/create-new', data)
+    return res
+}
 export {
     getDevices,
     getCategories,
@@ -55,5 +63,7 @@ export {
     confirmImported,
     getExportRequest,
     getAllDevicesExported,
-    getDetailExportRequest
+    getDetailExportRequest,
+    uploadFile,
+    createImportRequestNew
 };

@@ -8,14 +8,14 @@ defineProps<{
 const route = useRoute();
 
 const menuList = [
-  {
-    id: 1,
-    icon: "https://static.vecteezy.com/system/resources/previews/020/911/731/non_2x/profile-icon-avatar-icon-user-icon-person-icon-free-png.png",
-    title: "Người dùng",
-    path: "/manage-user",
-    name: "manage-user",
-    hide: user.user?.maChucVu !== "CV00000",
-  },
+  // {
+  //   id: 1,
+  //   icon: "https://static.vecteezy.com/system/resources/previews/020/911/731/non_2x/profile-icon-avatar-icon-user-icon-person-icon-free-png.png",
+  //   title: "Người dùng",
+  //   path: "/manage-user",
+  //   name: "manage-user",
+  //   hide: user.user?.maChucVu !== "CV00000",
+  // },
   {
     id: 2,
     icon: "https://png.pngtree.com/png-clipart/20230504/original/pngtree-checklist-line-icon-png-image_9137991.png",
@@ -40,7 +40,7 @@ const menuList = [
   {
     id: 5,
     icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-export-vector-icon-design-illustration-png-image_8987859.png",
-    title: "Xử lý xuất",
+    title: "Xử lý cung cấp",
     path: "/export",
     name: "export",
   },
@@ -51,16 +51,129 @@ function checkPath(path: string) {
     return route.path.split("/")[1] === path.split("/")[1];
   }
 }
+function checkPathAdmin(path: string) {
+  if (route.path === "/") return route.path === path;
+  else {
+    return route.path.split("/")[2] === path.split("/")[1];
+  }
+}
+const showSubMenu = ref(false);
+function toggleShowSubMenu() {
+  showSubMenu.value = !showSubMenu.value;
+}
 </script>
 
 <template>
   <div :class="$style.sidebarContainer">
     <div :class="[$style.sidebarItemBorder, $style.sidebarItemBox]">
+      <div
+        v-if="user.user?.maChucVu == 'CV00000'"
+        :class="[
+          $style.sidebarItem,
+          isExpand && $style.sidebarItemExpand,
+          checkPath('/admin') && $style.sidebarActiveItem,
+        ]"
+      >
+        <div
+          :class="[
+            $style.sidebarBorderItem,
+            checkPath('/admin') && $style.sidebarActiveItem,
+          ]"
+        />
+        <div
+          :class="$style.sidebarItemIconBox"
+          :style="{
+            backgroundColor: checkPath('/admin')
+              ? 'white'
+              : 'var(--color-gray-light)',
+          }"
+        >
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/020/911/731/non_2x/profile-icon-avatar-icon-user-icon-person-icon-free-png.png"
+            alt=""
+            width="20"
+            height="20"
+          />
+        </div>
+
+        <p
+          v-show="isExpand"
+          :class="[
+            $style.sidebarItemTitle,
+            checkPath('/admin') && $style.sidebarActiveItem,
+          ]"
+          :style="{
+            color: checkPath('/admin') ? '#fff' : 'inherit',
+          }"
+        >
+          Quản trị
+        </p>
+        <Icon
+          v-show="isExpand"
+          icon="mingcute:down-fill"
+          width="40px"
+          height="40px"
+          class="absolute right-4 top-6 p-2"
+          style="color: #fff"
+          :style="showSubMenu ? 'transform: rotate(180deg)' : ''"
+          @click="toggleShowSubMenu"
+        />
+        <Icon
+          v-show="!checkPath('/admin')"
+          icon="mingcute:down-line"
+          width="40px"
+          height="40px"
+          class="absolute right-4 top-6 p-2"
+          style="color: #252525"
+          :style="showSubMenu ? 'transform: rotate(180deg)' : ''"
+          @click="toggleShowSubMenu"
+        />
+      </div>
+      <div
+        v-if="user.user?.maChucVu == 'CV00000'"
+        v-show="showSubMenu"
+        class="submenu flex flex-col"
+      >
+        <NuxtLink
+          to="/admin/manage-user"
+          v-show="isExpand"
+          :class="[
+            $style.adminItem,
+            checkPathAdmin('/manage-user') && $style.adminItemActive,
+          ]"
+        >
+          Người dùng
+        </NuxtLink>
+        <NuxtLink
+          to="/admin/manage-khoa"
+          v-show="isExpand"
+          :class="[
+            $style.adminItem,
+            checkPathAdmin('/manage-khoa') && $style.adminItemActive,
+          ]"
+        >
+          Khoa
+        </NuxtLink>
+        <NuxtLink
+          to="/admin/manage-chucvu"
+          v-show="isExpand"
+          :class="[
+            $style.adminItem,
+            checkPathAdmin('/manage-chucvu') && $style.adminItemActive,
+          ]"
+        >
+          Chức vụ
+        </NuxtLink>
+      </div>
+
       <div v-for="item in menuList" :key="item.id">
         <RouterLink
-          v-if="!item.hide"
           :to="item.path"
-          :class="[$style.sidebarItem, isExpand && $style.sidebarItemExpand, checkPath(item.path) && $style.sidebarActiveItem]"
+          :class="[
+            $style.sidebarItem,
+            isExpand && $style.sidebarItemExpand,
+            checkPath(item.path) && $style.sidebarActiveItem,
+          ]"
         >
           <div
             :class="[
@@ -146,6 +259,7 @@ function checkPath(path: string) {
   }
   &.sidebarItemExpand {
     width: 260px;
+    user-select: none;
   }
 
   &:hover {
@@ -187,12 +301,22 @@ function checkPath(path: string) {
   &.sidebarActiveItem {
     font-weight: 600;
     color: #fff;
-
   }
 }
 
 .sidebarItemBoxIcon {
   width: 16px;
   height: 16px;
+}
+.adminItem {
+  cursor: pointer;
+  padding: 12px 0 12px 32px;
+  background-color: #f5f5f5;
+  @include text-style(16px, 500, 24px, var(--color-gray-darker));
+}
+
+.adminItemActive {
+  background-color: var(--color-primary-light);
+  color: #fff;
 }
 </style>

@@ -131,14 +131,14 @@ function UpdateInfo() {
           <dt class="text-sm font-medium text-gray-500">Email</dt>
           <input
             v-model="userCache.email"
-            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
+            class="mt-1 text-sm p-2 border rounded-sm border-[#252525] text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
           />
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Địa chỉ</dt>
           <input
             v-model="userCache.diaChi"
-            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
+            class="mt-1 text-sm p-2 border rounded-sm border-[#252525] text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
           />
         </div>
       </dl>

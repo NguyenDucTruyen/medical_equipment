@@ -14,6 +14,7 @@ const userCache = ref({
   tenChucVu: "",
   tenNguoiDung: "",
   maKhoa: "",
+  maNguoiDung: "",
   khoa: {
     tenKhoa: "",
   },
@@ -28,7 +29,7 @@ onMounted(() => {
   fetchUserInfo();
 });
 function fetchUserInfo() {
-  getInfoUser(maNguoiDung)
+  getInfoUser(maNguoiDung as string)
     .then((res: any) => {
       user.value = res.data;
       userCache.value = res.data;
@@ -46,17 +47,39 @@ function fetchUserInfo() {
     });
 }
 function resetPassword() {
-    ElNotification.success({
-      title: "Thành công",
-      message: "Đặt lại mật khẩu thành công",
-      offset: 10,
-    });
+  ElNotification.success({
+    title: "Thành công",
+    message: "Đặt lại mật khẩu thành công",
+    offset: 10,
+  });
 }
+const listChucVu = ref([
+  {
+    maChucVu: "CV00000",
+    tenChucVu: "Quản trị viên",
+  },
+  {
+    maChucVu: "CV00001",
+    tenChucVu: "Giám đốc bệnh viện",
+  },
+  {
+    maChucVu: "CV00002",
+    tenChucVu: "Trưởng khoa",
+  },
+  {
+    maChucVu: "CV00003",
+    tenChucVu: "Trưởng kho",
+  },
+  {
+    maChucVu: "CV00004",
+    tenChucVu: "Nhân viên kho",
+  },
+]);
 </script>
 <template>
   <div class="bg-white overflow-hidiven shadow rounded-lg border">
     <el-breadcrumb :separator-icon="ArrowRight" class="pt-6 pl-6">
-      <el-breadcrumb-item :to="{ path: '/manage-user' }"
+      <el-breadcrumb-item :to="{ path: '/admin/manage-user' }"
         >Người dùng</el-breadcrumb-item
       >
       <el-breadcrumb-item>Thông tin người dùng</el-breadcrumb-item>
@@ -85,9 +108,19 @@ function resetPassword() {
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Chức vụ</dt>
-          <div class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2">
-            {{ userCache.tenChucVu }}
-          </div>
+          <el-select
+            v-model="userCache.tenChucVu"
+            clearable
+            placeholder="Tất cả chức vụ"
+            style="width: 240px; height: 40px"
+          >
+            <el-option
+              v-for="item in listChucVu"
+              :key="item.maChucVu"
+              :label="item.tenChucVu"
+              :value="item.maChucVu"
+            />
+          </el-select>
         </div>
         <div
           v-if="userCache.maKhoa"
@@ -100,10 +133,10 @@ function resetPassword() {
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Căn cước công dân</dt>
-          <input
-            v-model="userCache.CCCD"
-            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
-          />
+          <span
+            class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2 outline-none"
+            >{{ userCache.CCCD }}</span
+          >
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Ngày sinh</dt>
@@ -123,17 +156,17 @@ function resetPassword() {
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Email</dt>
-          <input
-            v-model="userCache.email"
-            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
-          />
+          <span
+            class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2 outline-none"
+            >{{ userCache.email }}</span
+          >
         </div>
         <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium text-gray-500">Địa chỉ</dt>
-          <input
-            v-model="userCache.diaChi"
-            class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 outline-none"
-          />
+          <span
+            class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2 outline-none"
+            >{{ userCache.diaChi }}</span
+          >
         </div>
       </dl>
     </div>

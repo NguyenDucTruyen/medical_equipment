@@ -75,7 +75,7 @@ function goToDetail(value: any) {
     </div>
     <el-table
       :data="filterData"
-      style="width: 100%; height: calc(100% - 100px)"
+      style="width: 100%; height: calc(100% - 140px)"
       :class="$style.table"
     >
       <el-table-column label="STT" width="60px" align="center">

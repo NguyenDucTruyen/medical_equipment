@@ -12,6 +12,20 @@ export interface device {
         "moTa": string,
     }
 }
+export interface deviceNew {
+    "maTB": string,
+    "tenTB": string,
+    "xuatXu": string,
+    "hinhAnh": string,
+    "nhaCungCap": string,
+    "maDM": string,
+    "soLuongYeuCau": number,
+    "danhmuc": {
+        "maDM": string,
+        "tenDM": string,
+        "moTa": string,
+    }
+}
 
 export interface category {
     "maDM": string,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import viLocale from "element-plus/es/locale/lang/vi";
-
+import {uploadFile} from "@/composables/devices";
 const timeValue = ref("");
 const hello = () => ElMessage.info("hello world");
 const helloSuccess = () => ElMessage.success("hello world");
@@ -10,63 +10,24 @@ const colorMode = computed({
   get: () => color.value === 'dark',
   set: () => (color.preference = (color.value === 'dark' ? 'light' : 'dark')),
 });
+const file = ref<File>();
+function getFile(e: any) {
+  file.value = e.target.files[0]
+  console.log(file.value)
+}
+function confirmUpload() {
+  const formData = new FormData()
+  if (file.value) {
+    formData.append('image', file.value)
+    uploadFile(formData).then((res: any) => {
+      console.log(res.url)
+    })
+  }
+}
 </script>
 
 
 <template>
-  <ClientOnly>
-    <el-switch v-model="colorMode" inline-prompt active-text="dark" inactive-text="light" size="large"></el-switch>
-  </ClientOnly>
-
-  <br />
-
-  <el-dropdown class="m-4" type="primary">
-    <el-button type="primary">
-      Dropdown List
-      <el-icon class="el-icon--right">
-        <el-icon-arrow-down />
-      </el-icon>
-    </el-button>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item>Action 1</el-dropdown-item>
-        <el-dropdown-item>Action 2</el-dropdown-item>
-        <el-dropdown-item>Action 3</el-dropdown-item>
-        <el-dropdown-item>Action 4</el-dropdown-item>
-        <el-dropdown-item>Action 5</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
-
-  <br />
-
-  <el-button :icon="ElIconView" class="m-4" @click="hello">Hello</el-button>
-  <el-button class="m-4" type="primary" @click="hello">Hello</el-button>
-  <el-button class="m-4" type="success" @click="helloSuccess">Hello</el-button>
-
-  <br />
-
-  <Counter class="m-4" />
-
-  <br />
-
-  <el-icon class="cursor-pointer">
-    <el-icon-grape />
-  </el-icon>
-  <el-icon class="cursor-pointer">
-    <ElIconIceCream />
-  </el-icon>
-  <el-icon class="cursor-pointer mb-4">
-    <ElIconIceDrink />
-  </el-icon>
-
-  <br />
-
-  <el-config-provider :locale="viLocale">
-    <el-date-picker
-      v-model="timeValue"
-      type="date"
-      placeholder="请选择日期"
-    />
-  </el-config-provider>
+<input type="file" @input="getFile" accept="image/png, image/gif, image/jpeg" >
+<button @click=confirmUpload>upload</button>
 </template>

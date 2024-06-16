@@ -124,6 +124,7 @@ function UpdateInfo() {
               placeholder="Chọn ngày sinh"
               format="DD/MM/YYYY"
               value-format="YYYY-MM-DD"
+              readonly
             />
           </el-config-provider>
         </div>

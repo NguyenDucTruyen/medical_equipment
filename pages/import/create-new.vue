@@ -91,7 +91,6 @@ function create() {
         maNguoiTao: JSON.parse(localStorage.getItem("maNguoiDung") || ""),
         phieu: bodyParse,
       };
-      console.log("body:", body);
       await submitCreateRequest(body);
     })
     .catch((err) => {

@@ -26,7 +26,7 @@ const menuList = [
   {
     id: 3,
     icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-import-vector-icon-design-illustration-png-image_8987861.png",
-    title: "Xử lý nhập",
+    title: "Phiếu yêu cầu nhập",
     path: "/import",
     name: "import",
   },
@@ -40,7 +40,7 @@ const menuList = [
   {
     id: 5,
     icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-export-vector-icon-design-illustration-png-image_8987859.png",
-    title: "Xử lý cung cấp",
+    title: "Phiếu yêu cầu cung cấp",
     path: "/export",
     name: "export",
   },
@@ -106,7 +106,7 @@ function toggleShowSubMenu() {
             color: checkPath('/admin') ? '#fff' : 'inherit',
           }"
         >
-          Quản trị
+        Quản trị viên
         </p>
         <Icon
           v-show="isExpand"
@@ -142,7 +142,7 @@ function toggleShowSubMenu() {
             checkPathAdmin('/manage-user') && $style.adminItemActive,
           ]"
         >
-          Người dùng
+          Quản lí tài khoản
         </NuxtLink>
         <NuxtLink
           to="/admin/manage-khoa"
@@ -152,7 +152,7 @@ function toggleShowSubMenu() {
             checkPathAdmin('/manage-khoa') && $style.adminItemActive,
           ]"
         >
-          Khoa
+          Cập nhật khoa
         </NuxtLink>
         <NuxtLink
           to="/admin/manage-chucvu"
@@ -162,7 +162,7 @@ function toggleShowSubMenu() {
             checkPathAdmin('/manage-chucvu') && $style.adminItemActive,
           ]"
         >
-          Chức vụ
+          Cập nhật chức vụ
         </NuxtLink>
       </div>
 

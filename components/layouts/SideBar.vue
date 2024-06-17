@@ -24,18 +24,18 @@ const menuList = [
     name: "index",
   },
   {
-    id: 3,
-    icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-import-vector-icon-design-illustration-png-image_8987861.png",
-    title: "Phiếu yêu cầu nhập",
-    path: "/import",
-    name: "import",
-  },
-  {
     id: 4,
     icon: "https://png.pngtree.com/png-clipart/20230504/original/pngtree-workflow-line-icon-png-image_9139036.png",
     title: "Thiết bị y tế tại khoa",
     path: "/khoa",
     name: "khoa",
+  },
+  {
+    id: 3,
+    icon: "https://png.pngtree.com/png-clipart/20230314/original/pngtree-import-vector-icon-design-illustration-png-image_8987861.png",
+    title: "Phiếu yêu cầu nhập",
+    path: "/import",
+    name: "import",
   },
   {
     id: 5,
@@ -106,7 +106,7 @@ function toggleShowSubMenu() {
             color: checkPath('/admin') ? '#fff' : 'inherit',
           }"
         >
-        Quản trị viên
+          Quản trị viên
         </p>
         <Icon
           v-show="isExpand"

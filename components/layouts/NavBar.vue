@@ -23,28 +23,15 @@ const title = computed(() => {
     .join(" ");
   return title === "Index" ? "Trang chủ" : title;
 });
-const vClickOutside = (el: HTMLElement, binding: any) => {
-  if (!!el) {
-    console.log(el, binding.value);
-    const handler = (e: MouseEvent) => {
-      if (!el.contains(e.target as Node) && el !== e.target) {
-        binding.value();
-      }
-    };
-    document.addEventListener("click", handler);
-    onBeforeUnmount(() => {
-      document.removeEventListener("click", handler);
-    });
-  } else {
-    console.log("el is null");
-  }
-};
 function navigateToProfile() {
   popUpVisibility.value = false;
   router.push("/user");
 }
 function hiddenPopup() {
   popUpVisibility.value = false;
+}
+function showPopup() {
+  popUpVisibility.value = !popUpVisibility.value;
 }
 function logout() {
   ElMessageBox.confirm("Bạn có muốn đăng xuất?", "Đăng xuất", {
@@ -108,47 +95,46 @@ function logout() {
         <div :class="$style.headerCenterRightUser">
           <div
             :class="$style.headerCenterRightUserInfo"
-            @click="popUpVisibility = true"
+            v-click-out-side="hiddenPopup"
+            @click="showPopup"
           >
             <AtomsButtonIcon tooltip-text="Language">
               <img src="@/assets/icons/User.svg" alt="notification" />
             </AtomsButtonIcon>
             <span>{{ userStore?.user?.tenNguoiDung }}</span>
-          </div>
-          <div
-            v-if="popUpVisibility"
-            :class="$style.headerRightPopup"
-            v-click-out-side="hiddenPopup"
-          >
-            <div
-              :class="$style.headerRightPopupItem"
-              @click="navigateToProfile"
-            >
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon
-                  icon="ri:profile-line"
-                  :class="$style.headerRightPopupItemChildIcon"
-                  style="color: #5f6368"
-                />
-                <span :class="$style.headerRightPopupItemText"
-                  >Hồ sơ cá nhân</span
-                >
+            <div v-if="popUpVisibility" :class="$style.headerRightPopup">
+              <div
+                :class="$style.headerRightPopupItem"
+                @click="navigateToProfile"
+              >
+                <div :class="$style.headerRightPopupItemChild">
+                  <Icon
+                    icon="ri:profile-line"
+                    :class="$style.headerRightPopupItemChildIcon"
+                    style="color: #5f6368"
+                  />
+                  <span :class="$style.headerRightPopupItemText"
+                    >Hồ sơ cá nhân</span
+                  >
+                </div>
+                <div :class="$style.headerRightPopupItemChild">
+                  <Icon icon="icon-park-outline:right" style="color: #5f6368" />
+                </div>
               </div>
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon icon="icon-park-outline:right" style="color: #5f6368" />
-              </div>
-            </div>
-            <div :class="$style.headerRightPopupItem" @click="logout">
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon
-                  icon="material-symbols:logout"
-                  :class="$style.headerRightPopupItemChildIcon"
-                  style="color: #5f6368"
-                />
-                <span :class="$style.headerRightPopupItemText">Đăng xuất</span>
-              </div>
-              <div :class="$style.headerRightPopupItemChild">
-                <Icon icon="icon-park-outline:right" style="color: #5f6368" />
+              <div :class="$style.headerRightPopupItem" @click="logout">
+                <div :class="$style.headerRightPopupItemChild">
+                  <Icon
+                    icon="material-symbols:logout"
+                    :class="$style.headerRightPopupItemChildIcon"
+                    style="color: #5f6368"
+                  />
+                  <span :class="$style.headerRightPopupItemText"
+                    >Đăng xuất</span
+                  >
+                </div>
+                <div :class="$style.headerRightPopupItemChild">
+                  <Icon icon="icon-park-outline:right" style="color: #5f6368" />
+                </div>
               </div>
             </div>
           </div>
